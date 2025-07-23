@@ -1,0 +1,68 @@
+<% layout("/layouts/boilerPlate")%>
+    <br>
+    <div class="row">
+        <div class="col-8 offset-2">
+            <h3>Edit Listing</h3>
+            <form action="/listings/<%=srchListing._id%>?_method=put" method="POST" class="needs-validation" novalidate>
+
+                <div>
+                    <label for="image" class="form-label">Provide Image Link</label>
+                    <input type="text" name="listing[image][url]" value="<%=srchListing.image.url%>" required
+                        class="form-control">
+                    <div class="invalid-feedback">
+                        Image link is required!!
+                    </div>
+                </div>
+                <div>
+                    <br>
+                    <label for="title" class="form-label">Enter Listing's Title</label>
+                    <input type="text" name="listing[title]" value="<%=srchListing.title%>" required
+                        class="form-control">
+                    <div class="invalid-feedback">
+                        Title is required!!
+                    </div>
+                </div>
+                <div>
+                    <br>
+                    <label for="location" class="form-label">Listings's Address</label>
+                    <input type="text" name="listing[location]" value="<%=srchListing.location%>" required
+                        class="form-control">
+                    <div class="invalid-feedback">
+                        Address is required!!
+                    </div>
+                </div>
+
+                <div class="row ">
+                    <div class="col-4">
+                        <br>
+                        <label for="country" class="form-label">Country</label>
+                        <input type="text" name="listing[country]" value="<%=srchListing.country%>" class="form-control"
+                            required>
+                        <div class="invalid-feedback">
+                            Country name is required!!
+                        </div>
+                    </div>
+
+                    <div class="col-8">
+                        <br>
+                        <label for="price" class="form-label">Offered Price</label>
+                        <input type="number" name="listing[price]" value="<%=srchListing.price%>" class="form-control"
+                            required>
+                        <div class="invalid-feedback">
+                            Price is required!!
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <br>
+                    <label for="description" class="form-label">Add Description</label>
+                    <textarea type="text" name="listing[description]" class="form-control"
+                        ><%=srchListing.description%> </textarea>
+                </div>
+                <br><button class="btn btn-dark add-btn">Add</button>
+            </form>
+
+        </div>
+
+    </div>
+    <br>

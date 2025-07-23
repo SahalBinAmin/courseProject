@@ -1,0 +1,69 @@
+<% layout("/layouts/boilerPlate")%>
+
+    <div class="row">
+        <div class="col-8 offset-2">
+            <br>
+            <h3>Create New Listing</h3>
+            <form action="/listings" method="POST" novalidate class="needs-validation">
+
+                <div>
+                    <label for="image" class="form-label">Image</label>
+                    <input type="text"  name="listing[image][url]" placeholder="Give image URL/Link"
+                        class="form-control">
+                    <div class="invalid-feedback">
+                        Image link is required!!
+                    </div>
+                </div>
+
+
+                <div>
+                    <br>
+                    <label for="title" class="form-label">Title</label>
+                    <input type="text" name="listing[title]" placeholder="Enter Title" required class="form-control">
+                    <div class="invalid-feedback">
+                        Title is required!!
+                    </div>
+
+                </div>
+
+
+                <div>
+                    <br>
+                    <label for="location" class="form-label">Address of your property</label>
+                    <input type="text" name="listing[location]" required class="form-control">
+                    <div class="invalid-feedback">
+                        Address is required!!
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-4">
+                        <br>
+                        <label for="country" class="form-label">Country</label>
+                        <input type="text" name="listing[country]" required class="form-control">
+                        <div class="invalid-feedback">
+                            Country name is required!!
+                        </div>
+                    </div>
+                    <div class="col-8">
+                        <br>
+                        <label for="price" class="form-label">Place a rental price</label>
+                        <input type="number" name="listing[price]" required class="form-control">
+                        <div class="invalid-feedback">
+                            Enter a valid price!!
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <br>
+                    <label for="description" class="form-label">Give description</label>
+                    <textarea type="text" name="listing[description]" class="form-control"></textarea>
+
+                </div>
+                <br>
+                <button class="btn add-btn btn-dark">Add Listing</button>
+            </form>
+            <br><br>
+        </div>
+    </div>
