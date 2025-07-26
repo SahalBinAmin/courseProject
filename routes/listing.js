@@ -1,16 +1,14 @@
 const express = require("express");
 const router = express.Router();
 const asyncWrap = require("../utils/wrapAsync");
-const { valid, schemaVal } = require("../utils/schemaVal");
+const { listingSchema, schemaVal } = require("../utils/schemaVal");
 const ExpressError = require("../utils/expressErrors");
 const Listing = require("../models/listing");
 
-
-
 //Validation For Schema
 const validateListing = (req, res, next) => {
-  const joiResult = valid.validate(req.body);
-  const { error } = valid.validate(req.body);
+  const joiResult = listingSchema.validate(req.body);
+  const { error } = listingSchema.validate(req.body);
   if (error) {
     return next(new ExpressError(400, error.details[0].message));
   }
@@ -37,6 +35,10 @@ router.get(
   asyncWrap(async (req, res) => {
     let { id } = req.params;
     let srchListing = await Listing.findById(id).populate("reviews");
+    if (!srchListing) {
+      req.flash("error", "Listing doesn't exist");
+      res.redirect("/listings");
+    }
     res.render("listings/show", { srchListing });
   })
 );
@@ -49,6 +51,7 @@ router.post(
   asyncWrap(async (req, res, next) => {
     const newlisting = new Listing(req.body.listing);
     await newlisting.save();
+    req.flash("success", "New Listing Created!!");
     res.redirect("/listings");
   })
 );

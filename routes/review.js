@@ -4,7 +4,7 @@ const asyncWrap = require("../utils/wrapAsync");
 const Listing = require("../models/listing");
 const Review = require("../models/review");
 const ExpressError = require("../utils/expressErrors");
-const { valid, schemaVal } = require("../utils/schemaVal");
+const { listingSchema, schemaVal } = require("../utils/schemaVal");
 
 //Validation For Review
 const validateReview = (req, res, next) => {

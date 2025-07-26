@@ -1,0 +1,26 @@
+<% layout("/layouts/boilerPlate")%>
+
+    <div class="row mt-3">
+        <h3 class="col-6 offset-3">login To Wonderlust</h3>
+        <div class="col-6 offset-3">
+            <form action="/login" method="POST" class="needs-validation" novalidate>
+                <div>
+                    <br>
+                    <label for="username" class="form-label">UserName</label>
+                    <input type="text" name="username" id="username" required class="form-control">
+                </div>
+
+                <div>
+                    <br>
+                    <label for="password" class="form-label">Password</label>
+                    <input type="password" name="password" id="password" required class="form-control">
+                </div>
+                <br>
+                <button class="btn btn-success ">Login</button>
+            </form>
+
+        </div>
+
+
+    </div>
+    <br><br>
