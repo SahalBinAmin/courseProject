@@ -10,65 +10,78 @@
             <img src="<%=srchListing.image.url%>" class="show-img card-img-top" alt="listing image">
             <div class="card-body">
                 <p class="card-text">
-
+                    Owned By :
+                    <i>
+                        <%= srchListing.owner.username %>
+                    </i>
+                    <br>
+                </p>
+                <p>
                     <%=srchListing.description%>
                         <br>
-                        <%=srchListing.location%>
-                            <br>
-                            <%=srchListing.country%>
-                                <br>
-                                <%= srchListing.price.toLocaleString("en-US", { style: "currency" , currency: "PKR" })
-                                    %>
-
+                </p>
+                <p>
+                    <%=srchListing.location%>
+                        <br>
+                </p>
+                <p>
+                    <%=srchListing.country%>
+                        <br>
+                </p>
+                <p>
+                    <%= srchListing.price.toLocaleString("en-US", { style: "currency" , currency: "PKR" }) %>
                 </p>
             </div>
         </div>
-        <div class="last-btns">
-            <a href="/listings/<%=srchListing._id%>/edit" class="btn btn-dark col-1 add-btn offset-3">Edit</a>
-            <form action="/listings/<%=srchListing._id%>?_method=Delete" method="POST">
-                <button class="btn btn-dark offset-2">Delete</button>
-            </form>
-
-        </div>
-        <hr>
-        <div class="col-8 offset-3 mt-3">
-            <h4>Leave A Review</h4>
-            <form action="/listings/<%=srchListing._id%>/reviews" method="POST" novalidate
-                class="mb-3 needs-validation">
-                <div class="mt-3 mb-3">
-                    <label for="rating">Rating</label>
-                    <input type="range" class="form-range" min="1" max="5" id="rating" name="review[rating]">
-                </div>
-
-                <div class="mt-3 mb-3">
-                    <label for="comment" class="form-label">Comments</label>
-                    <textarea name="review[comment]" required id="comment" cols="30" rows="5"
-                        class="form-control"></textarea>
-                    <div class="invalid-feedback">Add some comments for review!! </div>
-
-                </div>
-                <button class="btn btn-outline-dark">Submit</button>
-            </form>
-
-            <hr>
-            <p><b>All Reviews</b></p>
-            <div class="row ">
-                <% for(review of srchListing.reviews){%>
-                    <div class="card col-5 mb-3 ms-2">
-                        <div class="card-body">
-                            <h5 class="card-title">Aslam Ali</h5>
-                            <p class="card-text">
-                                <%=review.comment%>
-                            </p>
-                            <p class="card-text">
-                                <%=review.rating%> Stars
-                            </p>
-                        </div>
-                        <form action="/listings/<%=srchListing._id%>/review/<%=review._id%>?_method=DELETE" method="post">
-                            <button class="btn btn-sm btn-dark mb-1">Delete</button>
-                        </form>
-                    </div>
-                    <% }%>
+     
+            <div class="last-btns">
+                <a href="/listings/<%=srchListing._id%>/edit" class="btn btn-dark col-1 add-btn offset-3">Edit</a>
+                <form action="/listings/<%=srchListing._id%>?_method=Delete" method="POST">
+                    <button class="btn btn-dark offset-2">Delete</button>
+                </form>
             </div>
-        </div>
+           
+
+                <hr>
+                <div class="col-8 offset-3 mt-3">
+                    <h4>Leave A Review</h4>
+                    <form action="/listings/<%=srchListing._id%>/reviews" method="POST" novalidate
+                        class="mb-3 needs-validation">
+                        <div class="mt-3 mb-3">
+                            <label for="rating">Rating</label>
+                            <input type="range" class="form-range" min="1" max="5" id="rating" name="review[rating]">
+                        </div>
+
+                        <div class="mt-3 mb-3">
+                            <label for="comment" class="form-label">Comments</label>
+                            <textarea name="review[comment]" required id="comment" cols="30" rows="5"
+                                class="form-control"></textarea>
+                            <div class="invalid-feedback">Add some comments for review!! </div>
+
+                        </div>
+                        <button class="btn btn-outline-dark">Submit</button>
+                    </form>
+
+                    <hr>
+                    <p><b>All Reviews</b></p>
+                    <div class="row ">
+                        <% for(review of srchListing.reviews){%>
+                            <div class="card col-5 mb-3 ms-2">
+                                <div class="card-body">
+                                    <h5 class="card-title">Aslam Ali</h5>
+                                    <p class="card-text">
+                                        <%=review.comment%>
+                                    </p>
+                                    <p class="card-text">
+                                        <%=review.rating%> Stars
+                                    </p>
+                                </div>
+                                <form action="/listings/<%=srchListing._id%>/review/<%=review._id%>?_method=DELETE"
+                                    method="post">
+                                    <button class="btn btn-sm btn-dark mb-1">Delete</button>
+                                </form>
+                            </div>
+                            <% }%>
+                    </div>
+                </div>
     </div>

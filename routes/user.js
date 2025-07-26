@@ -3,6 +3,7 @@ const router = express.Router();
 const User = require("../models/user");
 const wrapAsync = require("../utils/wrapAsync");
 const passport = require("passport");
+const { saveRedirectUrl } = require("../middleware");
 
 //Get Route For Signup
 router.get("/signup", (req, res) => {
@@ -21,8 +22,13 @@ router.post(
       });
       const regUser = await User.register(newUser, password);
       console.log(regUser);
-      req.flash("success", `Welcome ${username}`);
-      res.redirect("/listings");
+      req.login(regUser, (err) => {
+        if (err) {
+          next(err);
+        }
+        req.flash("success", `Welcome ${username}`);
+        res.redirect("/listings");
+      });
     } catch (err) {
       req.flash("error", err.message);
       res.redirect("/signup");
@@ -38,14 +44,27 @@ router.get("/login", (req, res) => {
 //Post Route For Login
 router.post(
   "/login",
+  saveRedirectUrl,
   passport.authenticate("local", {
     failureRedirect: "/login",
     failureFlash: true,
   }),
   async (req, res) => {
-    req.flash("success", "Welcome back to wanderlust");
-    res.redirect("listings");
+    req.flash("success", "Welcome back to wanderland");
+    let redirectUrl = res.locals.redirectUrl || "/listings";
+    res.redirect(redirectUrl);
   }
 );
+
+//Get Route For
+router.get("/logout", (req, res, next) => {
+  req.logout((err) => {
+    if (err) {
+      next(err);
+    }
+    req.flash("success", "Logged-Out");
+    res.redirect("/listings");
+  });
+});
 
 module.exports = router;
