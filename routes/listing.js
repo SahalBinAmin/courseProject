@@ -36,13 +36,12 @@ router.get(
   asyncWrap(async (req, res) => {
     let { id } = req.params;
     let srchListing = await Listing.findById(id)
-      .populate("reviews")
+      .populate({ path: "reviews", populate: { path: "author" } })
       .populate("owner");
     if (!srchListing) {
       req.flash("error", "Listing doesn't exist");
       res.redirect("/listings");
     }
-    console.log(srchListing);
     res.render("listings/show", { srchListing });
   })
 );
