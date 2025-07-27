@@ -11,25 +11,19 @@ const {
   logout,
 } = require("../controllers/user");
 
-//Get Route For Signup
-router.get("/signup", renderSignupForm);
+router.route("/signup").get(renderSignupForm).post(wrapAsync(postSignup));
 
-//Post Route For Signup
-router.post("/signup", wrapAsync(postSignup));
-
-//Get Route For Login
-router.get("/login", renderLoginForm);
-
-//Post Route For Login
-router.post(
-  "/login",
-  saveRedirectUrl,
-  passport.authenticate("local", {
-    failureRedirect: "/login",
-    failureFlash: true,
-  }),
-  postLogin
-);
+router
+  .route("/login")
+  .get(renderLoginForm)
+  .post(
+    saveRedirectUrl,
+    passport.authenticate("local", {
+      failureRedirect: "/login",
+      failureFlash: true,
+    }),
+    postLogin
+  );
 
 //Get Route For
 router.get("/logout", logout);
