@@ -14,6 +14,9 @@ const {
   updateListing,
   destroyListing,
 } = require("../controllers/listing");
+const { storage } = require("../cloudConfig");
+const multer = require("multer");
+const upload = multer({ storage });
 
 //Validation For Schema
 const validateListing = (req, res, next) => {
@@ -29,7 +32,12 @@ const validateListing = (req, res, next) => {
 router
   .route("/")
   .get(asyncWrap(index))
-  .post(isLoggedIn, validateListing, asyncWrap(createListing));
+  .post(
+    isLoggedIn,
+    upload.single("listing[image][url]"),
+    validateListing,
+    asyncWrap(createListing)
+  );
 
 //New Route
 router.get("/new", isLoggedIn, renderNewForm);
@@ -37,7 +45,13 @@ router.get("/new", isLoggedIn, renderNewForm);
 router
   .route("/:id")
   .get(asyncWrap(showListing))
-  .put(isLoggedIn, isOwner, validateListing, asyncWrap(updateListing))
+  .put(
+    isLoggedIn,
+    isOwner,
+    upload.single("listing[image][url]"),
+    validateListing,
+    asyncWrap(updateListing)
+  )
   .delete(isLoggedIn, isOwner, asyncWrap(destroyListing));
 
 //POST ROUTES

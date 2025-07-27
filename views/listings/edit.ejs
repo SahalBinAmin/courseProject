@@ -3,16 +3,20 @@
     <div class="row">
         <div class="col-8 offset-2">
             <h3>Edit Listing</h3>
-            <form action="/listings/<%=srchListing._id%>?_method=put" method="POST" class="needs-validation" novalidate>
+            <form action="/listings/<%=srchListing._id%>?_method=put" method="POST" class="needs-validation" novalidate
+                enctype="multipart/form-data">
 
                 <div>
-                    <label for="image" class="form-label">Provide Image Link</label>
-                    <input type="text" name="listing[image][url]" value="<%=srchListing.image.url%>" required
-                        class="form-control">
-                    <div class="invalid-feedback">
-                        Image link is required!!
-                    </div>
+                    Original Image <br>
+                    <img src=<%=orgImage %> alt="orginal-image-from-cloudinary">
                 </div>
+                <br>
+                <div>
+                    <label for="image" class="form-label">Upload New Image</label>
+                    <input type="file" name="listing[image][url]" value="<%=srchListing.image.url%>"
+                        class="form-control">
+                </div>
+
                 <div>
                     <br>
                     <label for="title" class="form-label">Enter Listing's Title</label>
@@ -24,7 +28,7 @@
                 </div>
                 <div>
                     <br>
-                    <label for="location" class="form-label">Listings's Address</label>
+                    <label for="location" class="form-label">Listing's Address</label>
                     <input type="text" name="listing[location]" value="<%=srchListing.location%>" required
                         class="form-control">
                     <div class="invalid-feedback">
@@ -56,8 +60,8 @@
                 <div>
                     <br>
                     <label for="description" class="form-label">Add Description</label>
-                    <textarea type="text" name="listing[description]" class="form-control"
-                        ><%=srchListing.description%> </textarea>
+                    <textarea type="text" name="listing[description]"
+                        class="form-control"><%=srchListing.description%> </textarea>
                 </div>
                 <br><button class="btn btn-dark add-btn">Add</button>
             </form>
