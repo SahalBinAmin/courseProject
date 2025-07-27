@@ -5,6 +5,15 @@ const { listingSchema, schemaVal } = require("../utils/schemaVal");
 const ExpressError = require("../utils/expressErrors");
 const Listing = require("../models/listing");
 const { isLoggedIn, isOwner } = require("../middleware");
+const {
+  index,
+  renderNewForm,
+  showListing,
+  createListing,
+  renderEditForm,
+  updateListing,
+  destroyListing,
+} = require("../controllers/listing");
 
 //Validation For Schema
 const validateListing = (req, res, next) => {
@@ -17,87 +26,31 @@ const validateListing = (req, res, next) => {
 };
 
 //Index Route
-router.get(
-  "/",
-  asyncWrap(async (req, res) => {
-    let allListings = await Listing.find({});
-    res.render("listings/index.ejs", { allListings });
-  })
-);
+router.get("/", asyncWrap(index));
 
 //New Route
-router.get("/new", isLoggedIn, (req, res) => {
-  res.render("listings/new.ejs");
-});
+router.get("/new", isLoggedIn, renderNewForm);
 
 //Show Route
-router.get(
-  "/:id",
-  asyncWrap(async (req, res) => {
-    let { id } = req.params;
-    let srchListing = await Listing.findById(id)
-      .populate({ path: "reviews", populate: { path: "author" } })
-      .populate("owner");
-    if (!srchListing) {
-      req.flash("error", "Listing doesn't exist");
-      res.redirect("/listings");
-    }
-    res.render("listings/show", { srchListing });
-  })
-);
+router.get("/:id", asyncWrap(showListing));
 
 //POST ROUTES
 //Create Route
-router.post(
-  "/",
-  isLoggedIn,
-  validateListing,
-  asyncWrap(async (req, res, next) => {
-    const newlisting = new Listing(req.body.listing);
-    newlisting.owner = req.user._id;
-    await newlisting.save();
-    req.flash("success", "New Listing Created!!");
-    res.redirect("/listings");
-  })
-);
+router.post("/", isLoggedIn, validateListing, asyncWrap(createListing));
 
 //Edit Route
-router.get(
-  "/:id/edit",
-  isLoggedIn,
-  isOwner,
-  asyncWrap(async (req, res) => {
-    let { id } = req.params;
-    let srchListing = await Listing.findById(id);
-    res.render("listings/edit", { srchListing });
-  })
-);
+router.get("/:id/edit", isLoggedIn, isOwner, asyncWrap(renderEditForm));
 
-//PUT ROUTES
-//Put Route
+//PUT Route
 router.put(
   "/:id",
   isLoggedIn,
   isOwner,
   validateListing,
-  asyncWrap(async (req, res) => {
-    let { id } = req.params;
-    await Listing.findByIdAndUpdate(id, { ...req.body.listing });
-    req.flash("success", "Listing updated");
-    res.redirect(`/listings/${id}`);
-  })
+  asyncWrap(updateListing)
 );
 
 //DELETE ROUTE
-router.delete(
-  "/:id",
-  isLoggedIn,
-  isOwner,
-  asyncWrap(async (req, res) => {
-    let { id } = req.params;
-    let delListing = await Listing.findByIdAndDelete(id);
-    res.redirect("/listings");
-  })
-);
+router.delete("/:id", isLoggedIn, isOwner, asyncWrap(destroyListing));
 
 module.exports = router;

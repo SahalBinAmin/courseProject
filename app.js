@@ -65,7 +65,7 @@ app.use((req, res, next) => {
 });
 
 app.get("/", (req, res) => {
-  res.send("Home Path");
+  res.send("Home Route")
 });
 
 app.use("/listings", listings);
